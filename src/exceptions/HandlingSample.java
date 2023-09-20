@@ -12,7 +12,7 @@ public class HandlingSample {
             int c = a / b;
         } catch (ArithmeticException e) {
             System.out.println("in class: " + e.getClass());
-            System.out.print(" error: " + e.getMessage());
+            System.out.print("error: " + e.getMessage());
         } catch (Exception e) {
             // usage of Exception is always recommended
             System.out.println(e.getMessage());
