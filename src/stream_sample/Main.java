@@ -1,7 +1,10 @@
 package stream_sample;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -25,6 +28,23 @@ public class Main {
                 .filter(employee -> employee.age >= 25)
                 .min(Comparator.comparing(employee -> employee.salary))
                 .ifPresent(min -> System.out.println(min.name));
+
+        // get a sorted list by age
+        List <Employee> sortedList = list.stream()
+                .filter(employee -> employee.age >= 25)
+                .sorted(Comparator.comparing(Employee::getAge))
+                .collect(Collectors.toList());
+
+        // check if all elements match the given condition
+        List <Integer> numbers = Arrays.asList(1,2,3,4,5,6);
+        boolean matchResult = numbers.stream()
+                .allMatch(number -> number<7);
+        System.out.println(matchResult);
+
+        // check if at least one element meets the required condition
+        boolean hasOlderThan50 = list.stream()
+                .anyMatch(employee -> employee.age > 50);
+        System.out.println("has an employee older than 50: " + hasOlderThan50);
 
     }
 }

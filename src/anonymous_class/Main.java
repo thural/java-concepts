@@ -15,7 +15,7 @@ public class Main {
         normalObject.makeSound();
 
         // create and use an anonymous class extending an abstract class
-        AbstractClass abstractObject = new AbstractClass() {
+        AbstractClass abstractObject = new AbstractClass(){
             @Override
             void sayHello() {
                 System.out.println("hello from abstract");
@@ -31,6 +31,5 @@ public class Main {
             }
         };
         interfaceObject.sayHello();
-
     }
 }

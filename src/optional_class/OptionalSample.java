@@ -21,6 +21,5 @@ public class OptionalSample {
 
         // using orElse(), which returns passed element if not present
         myCat.orElse(new Cat()).makesSound();
-
     }
 }

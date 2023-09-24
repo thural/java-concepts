@@ -13,4 +13,7 @@ public class Employee {
         this.type = type;
     }
 
+    public Integer getAge() {
+        return age;
+    }
 }
