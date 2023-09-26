@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IteratorSample {
-
     public static void main(String[] args) {
         // create and fill a list
         List<String> cities = new LinkedList<>();
@@ -32,3 +31,11 @@ public class IteratorSample {
         System.out.println(elem);
     }
 }
+
+/*
+ iterator has 3 methods:
+
+ boolean hasNext()
+ Object next()
+ void remove()
+*/
