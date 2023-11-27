@@ -26,7 +26,7 @@ public class Main {
         // get name of the employee which gets the least salary among age group 25 and up
         list.stream()
                 .filter(employee -> employee.age >= 25)
-                .min(Comparator.comparing(employee -> employee.salary))
+                .min(Comparator.comparingDouble(employee -> employee.salary))
                 .ifPresent(min -> System.out.println(min.name));
 
         // get a sorted list by age
@@ -35,13 +35,13 @@ public class Main {
                 .sorted(Comparator.comparing(Employee::getAge))
                 .collect(Collectors.toList());
 
-        // check if all elements match the given condition
+        // check if all elements match the given predicate
         List <Integer> numbers = Arrays.asList(1,2,3,4,5,6);
         boolean matchResult = numbers.stream()
                 .allMatch(number -> number<7);
         System.out.println(matchResult);
 
-        // check if at least one element meets the required condition
+        // check if at least one element meets the required predicate
         boolean hasOlderThan50 = list.stream()
                 .anyMatch(employee -> employee.age > 50);
         System.out.println("has an employee older than 50: " + hasOlderThan50);
