@@ -1,12 +1,11 @@
-package data_structures;
+package data_structures.stack;
 
 
-public class Stack {
-    private int arr[];
+public class Stack implements IStack {
+    private final int[] arr;
     private int top;
-    private int capacity;
+    private final int capacity;
 
-    // Creating a stack
     Stack(int size) {
         arr = new int[size];
         capacity = size;
