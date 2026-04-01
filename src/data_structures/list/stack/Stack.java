@@ -1,70 +1,50 @@
 package data_structures.list.stack;
 
+import data_structures.list.vector.Vector;
 
-import data_structures.list.BaseList;
 
-public class Stack extends BaseList implements IStack {
-    private final int[] arr;
-    private int top;
-    private final int capacity;
+public class Stack extends Vector implements IStack {
 
-    Stack(int size) {
-        arr = new int[size];
-        capacity = size;
-        top = -1;
+    /**
+     * Initializes the stack with an initial capacity.
+     * Because it extends Vector, it will grow automatically.
+     */
+    public Stack(int size) {
+        super(size); // Calls the Vector constructor
     }
 
+    @Override
     public void push(int x) {
-        if (isFull()) {
-            System.out.println("OverFlow\nProgram Terminated\n");
-            System.exit(1);
-        }
-
+        // Reuse Vector's add method which handles capacity checks and resizing
+        add(x);
         System.out.println("Inserting " + x);
-        arr[++top] = x;
     }
 
+    @Override
     public int pop() {
         if (isEmpty()) {
             System.out.println("STACK EMPTY");
             System.exit(1);
         }
-        return arr[top--];
+        // The top element is always at index (count - 1)
+        int value = arr[count - 1];
+        count--; // Decrement count inherited from BaseList via Vector
+        return value;
+    }
+
+    @Override
+    public int peek() {
+        if (isEmpty()) {
+            System.out.println("STACK EMPTY");
+            return -1;
+        }
+        return arr[count - 1];
     }
 
     @Override
     public void add(int data) {
-        // In a Stack context, 'add' is synonymous with 'push'
+        // Keeps the IList 'add' synonymous with 'push'
         push(data);
-    }
-
-    @Override
-    public void remove(int data) {
-        // This is a custom implementation to satisfy the IList interface.
-        // It searches for the value and "removes" it by shifting elements down.
-        boolean found = false;
-        for (int i = 0; i <= top; i++) {
-            if (arr[i] == data) {
-                // Shift elements to fill the gap
-                for (int j = i; j < top; j++) {
-                    arr[j] = arr[j + 1];
-                }
-                top--;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            System.out.println("Value " + data + " not found in stack.");
-        }
-    }
-
-    @Override
-    public void clear() {
-        // To clear an array-based stack, we simply reset the top pointer.
-        // The data still exists in memory but is now unreachable by stack operations.
-        top = -1;
-        System.out.println("Stack cleared.");
     }
 
     @Override
@@ -77,28 +57,31 @@ public class Stack extends BaseList implements IStack {
         printStack();
     }
 
+    @Override
     public boolean isFull() {
-        return top == capacity - 1;
+        // Since Vector is dynamic, the stack is technically never full
+        return false;
     }
 
     public void printStack() {
-        for (int i = 0; i <= top; i++) {
+        // Using 'count' from the parent class to iterate
+        for (int i = 0; i < count; i++) {
             System.out.println(arr[i]);
         }
     }
 
     public static void main(String[] args) {
-        Stack stack = new Stack(5);
+        // Starting with a small capacity of 2 to demonstrate dynamic growth
+        Stack stack = new Stack(2);
 
         stack.push(1);
         stack.push(2);
-        stack.push(3);
+        stack.push(3); // Vector will automatically double capacity here
         stack.push(4);
 
         stack.pop();
         System.out.println("\nAfter popping out");
 
         stack.printStack();
-
     }
 }
