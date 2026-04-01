@@ -16,8 +16,22 @@ public class CircularQueue implements ICircularQueue{
         return front == rear + 1;
     }
 
+    @Override
+    public int size() {
+        if (isEmpty()) return 0;
+        // General formula for circular distance
+        return ((rear - front + SIZE) % SIZE) + 1;
+    }
+
     public boolean isEmpty() {
         return front == -1;
+    }
+
+    @Override
+    public void clear() {
+        front = -1;
+        rear = -1;
+        System.out.println("Queue cleared.");
     }
 
     public void enQueue(int element) {
@@ -63,38 +77,4 @@ public class CircularQueue implements ICircularQueue{
             System.out.println("Rear -> " + rear);
         }
     }
-
-    public static void main(String[] args) {
-
-        CircularQueue q = new CircularQueue();
-
-        // Fails because front = -1
-        q.deQueue();
-
-        q.enQueue(1);
-        q.enQueue(2);
-        q.enQueue(3);
-        q.enQueue(4);
-        q.enQueue(5);
-
-        // Fails to enqueue because front == 0 && rear == SIZE - 1
-        q.enQueue(6);
-
-        q.display();
-
-        int elem = q.deQueue();
-
-        if (elem != -1) {
-            System.out.println("Deleted Element is " + elem);
-        }
-        q.display();
-
-        q.enQueue(7);
-
-        q.display();
-
-        // Fails to enqueue because front == rear + 1
-        q.enQueue(8);
-    }
-
 }

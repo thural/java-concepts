@@ -4,18 +4,6 @@ import data_structures.queue.IQueue;
 
 public interface ICircularQueue extends IQueue {
     /**
-     * Inserts an element at the rear of the queue.
-     * If the rear reaches the end of the array, it wraps around to the beginning.
-     */
-    void enQueue(int element);
-
-    /**
-     * Removes and returns the element from the front of the queue.
-     * If the front reaches the end of the array, it wraps around to the beginning.
-     */
-    int deQueue();
-
-    /**
      * Checks if the queue is empty (front is -1).
      */
     boolean isEmpty();

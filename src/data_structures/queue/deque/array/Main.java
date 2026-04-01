@@ -1,55 +1,56 @@
 package data_structures.queue.deque.array;
 
 
-import data_structures.queue.deque.Deque;
 import data_structures.queue.deque.IDeque;
 import data_structures.queue.IQueue;
 
 public class Main {
     public static void main(String[] args) {
-        // Create a Deque with a capacity of 5
-        // Using the interface as the type (Polymorphism)
-        IDeque myDeque = new Deque(5);
+        // 1. Initialize with a very small capacity (2) to trigger resizing logic
+        IDeque adq = new ArrayDeque(2);
 
-        System.out.println("--- Double-Ended Operations ---");
+        System.out.println("--- Testing Double-Ended Insertion & Dynamic Growth ---");
 
-        myDeque.insertRear(10);  // Deque: [10]
-        myDeque.insertRear(20);  // Deque: [10, 20]
-        myDeque.insertFront(5);  // Deque: [5, 10, 20]
-        myDeque.insertFront(1);  // Deque: [1, 5, 10, 20]
+        adq.insertRear(10);
+        adq.insertRear(20); // Array is now full [10, 20]
 
-        myDeque.display();
+        System.out.println("Current count: " + adq.size());
 
-        System.out.println("Front element: " + myDeque.getFront());
-        System.out.println("Rear element: " + myDeque.getRear());
+        // This next insert triggers doubleCapacity()
+        adq.insertFront(5);
+        adq.insertRear(30);
 
-        myDeque.deleteFront();   // Removes 1
-        myDeque.deleteRear();    // Removes 20
+        adq.display(); // Expected: ArrayDeque: 5 10 20 30
 
-        System.out.print("After deletions (Front and Rear): ");
-        myDeque.display();       // Expected: [5, 10]
+        System.out.println("\n--- Testing Wraparound and Deletion ---");
 
-        System.out.println("\n--- Standard Queue Operations (Inherited) ---");
+        System.out.println("Front element: " + adq.getFront()); // 5
+        System.out.println("Rear element: " + adq.getRear());   // 30
 
-        // We can treat our Deque specifically as an IQueue!
-        IQueue myQueue = myDeque;
+        adq.deleteFront(); // Removes 5
+        adq.deleteRear();  // Removes 30
 
-        myQueue.enQueue(30);     // Uses default insertRear logic
-        myQueue.enQueue(40);     // Uses default insertRear logic
+        System.out.print("After deleting from both ends: ");
+        adq.display(); // Expected: 10 20
 
-        System.out.print("Using as a Queue: ");
-        myQueue.display();       // Expected: [5, 10, 30, 40]
+        System.out.println("\n--- Using as a Standard Queue (Inherited/Bridge) ---");
 
-        int removed = myQueue.deQueue(); // Uses default getFront + deleteFront logic
-        System.out.println("DeQueued element: " + removed);
+        // Treating ArrayDeque as an IQueue to test polymorphic behavior
+        IQueue queue = adq;
 
-        System.out.print("Final State: ");
-        myQueue.display();
+        queue.enQueue(100);
+        queue.enQueue(200);
+        queue.enQueue(300); // Should trigger another resize since count was 2
 
-        System.out.println("\n--- Edge Case Checks ---");
-        System.out.println("Is Full? " + myDeque.isFull());
+        queue.display();
+        System.out.println("deQueue result: " + queue.deQueue()); // Should be 10
 
-        myDeque.enQueue(50);
-        myDeque.enQueue(60); // This should trigger the Overflow message from our logic
+        System.out.println("\n--- Final Status ---");
+        System.out.println("Is Empty? " + adq.isEmpty());
+        System.out.println("Total elements (count): " + adq.size());
+        adq.display();
+
+        adq.clear();
+        System.out.println("After clear(), size is: " + adq.size());
     }
 }

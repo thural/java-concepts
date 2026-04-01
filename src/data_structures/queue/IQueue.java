@@ -1,7 +1,9 @@
 package data_structures.queue;
 
 
-public interface IQueue {
+import data_structures.ICollection;
+
+public interface IQueue extends ICollection {
     /**
      * Adds an element to the end of the queue.
      */
@@ -12,18 +14,9 @@ public interface IQueue {
      */
     int deQueue();
 
-    /**
-     * Checks if the queue is empty.
-     */
-    boolean isEmpty();
 
     /**
      * Checks if the queue is full.
      */
     boolean isFull();
-
-    /**
-     * Displays the current elements and the front/rear pointers.
-     */
-    void display();
 }

@@ -25,7 +25,7 @@ public class LinkedList extends BaseList implements ILinkedList {
     }
 
     @Override
-    public void insert(int data) {
+    public void add(int data) {
         Node newNode = new Node(data);
         if (head == null) {
             head = newNode;
@@ -40,7 +40,7 @@ public class LinkedList extends BaseList implements ILinkedList {
     }
 
     @Override
-    public void insertAtBeginning(int data) {
+    public void addAtBeginning(int data) {
         Node newNode = new Node(data);
         newNode.next = head;
         head = newNode;
@@ -48,7 +48,7 @@ public class LinkedList extends BaseList implements ILinkedList {
     }
 
     @Override
-    public void delete(int data) {
+    public void remove(int data) {
         if (head == null) {
             System.out.println("List is empty.");
             return;
@@ -90,18 +90,6 @@ public class LinkedList extends BaseList implements ILinkedList {
     }
 
     @Override
-    public void add(int data) {
-        // Standard behavior for a list is to add to the end
-        insert(data);
-    }
-
-    @Override
-    public void remove(int data) {
-        // Standard behavior is to remove the specified element
-        delete(data);
-    }
-
-    @Override
     public void clear() {
         // In a Linked List, clearing is as simple as dropping the reference
         // to the head. The Garbage Collector will handle the rest.
@@ -122,20 +110,5 @@ public class LinkedList extends BaseList implements ILinkedList {
             temp = temp.next;
         }
         System.out.println("null");
-    }
-
-    public static void main(String[] args) {
-        LinkedList list = new LinkedList();
-
-        list.insert(10);
-        list.insert(20);
-        list.insertAtBeginning(5);
-
-        list.display(); // Output: 5 -> 10 -> 20 -> null
-
-        System.out.println("Searching for 10: " + list.search(10));
-
-        list.delete(10);
-        list.display(); // Output: 5 -> 20 -> null
     }
 }

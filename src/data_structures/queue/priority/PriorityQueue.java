@@ -1,83 +1,99 @@
 package data_structures.queue.priority;
 
-
 import java.util.ArrayList;
 
-class PriorityQueue implements IPriorityQueue {
+public class PriorityQueue implements IPriorityQueue {
+    // We need an internal storage for the heap
+    private ArrayList<Integer> hT = new ArrayList<>();
 
-    public void heapify(ArrayList<Integer> hT, int i) {
+    private void heapify(int i) {
         int size = hT.size();
-        // Find the largest among root, left child and right child
         int largest = i;
         int l = 2 * i + 1;
         int r = 2 * i + 2;
-        if (l < size && hT.get(l) > hT.get(largest))
-            largest = l;
-        if (r < size && hT.get(r) > hT.get(largest))
-            largest = r;
 
-        // Swap and continue heapifying if root is not largest
+        if (l < size && hT.get(l) > hT.get(largest)) largest = l;
+        if (r < size && hT.get(r) > hT.get(largest)) largest = r;
+
         if (largest != i) {
             int temp = hT.get(largest);
             hT.set(largest, hT.get(i));
             hT.set(i, temp);
-
-            heapify(hT, largest);
+            heapify(largest);
         }
     }
 
-    public void insert(ArrayList<Integer> hT, int newNum) {
+    @Override
+    public void enQueue(int element) {
+        hT.add(element);
+        // "Bubble up" logic: Re-heapify from the last non-leaf node up to root
         int size = hT.size();
-        hT.add(newNum);
-        if (size != 0) {
-            for (int i = size / 2 - 1; i >= 0; i--) {
-                heapify(hT, i);
-            }
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            heapify(i);
         }
     }
 
-    public void deleteNode(ArrayList<Integer> hT, int num) {
-        int size = hT.size();
-        int i;
-        for (i = 0; i < size; i++) {
-            if (num == hT.get(i))
-                break;
+    @Override
+    public int deQueue() {
+        if (isEmpty()) {
+            System.out.println("Priority Queue is empty");
+            return -1;
         }
 
-        int temp = hT.get(i);
-        hT.set(i, hT.get(size - 1));
-        hT.set(size - 1, temp);
+        int root = hT.get(0); // The highest priority element
+        int lastElement = hT.get(hT.size() - 1);
 
-        hT.remove(size - 1);
-        for (int j = size / 2 - 1; j >= 0; j--) {
-            heapify(hT, j);
+        // Move the last element to root and remove the old last element
+        hT.set(0, lastElement);
+        hT.remove(hT.size() - 1);
+
+        // Push the new root down to its correct position
+        if (!isEmpty()) {
+            heapify(0);
         }
+
+        return root;
     }
 
-    public void printArray(ArrayList<Integer> array, int size) {
-        for (Integer i : array) {
+    @Override
+    public boolean isFull() {
+        return false; // ArrayList based implementation is dynamic
+    }
+
+    @Override
+    public int size() {
+        return hT.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return hT.isEmpty();
+    }
+
+    @Override
+    public void clear() {
+        hT.clear();
+    }
+
+    @Override
+    public void display() {
+        System.out.print("PriorityQueue (Heap Array): ");
+        for (Integer i : hT) {
             System.out.print(i + " ");
         }
         System.out.println();
     }
 
-    public static void main(String[] args) {
+    @Override
+    public int peek() {
+        if (isEmpty()) {
+            System.out.println("Priority Queue is empty. Cannot peek.");
+            // Returning a sentinel value like -1 or throwing an exception
+            // is standard if the queue is empty.
+            return -1;
+        }
 
-        ArrayList<Integer> array = new ArrayList<Integer>();
-        int size = array.size();
-
-        PriorityQueue h = new PriorityQueue();
-        h.insert(array, 3);
-        h.insert(array, 4);
-        h.insert(array, 9);
-        h.insert(array, 5);
-        h.insert(array, 2);
-
-        System.out.println("Max-Heap array: ");
-        h.printArray(array, size);
-
-        h.deleteNode(array, 4);
-        System.out.println("After deleting an element: ");
-        h.printArray(array, size);
+        // In a Max-Heap, the largest element is always at the root (index 0).
+        return hT.get(0);
     }
 }
