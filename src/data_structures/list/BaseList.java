@@ -14,5 +14,4 @@ public abstract class BaseList implements IList {
         return count == 0;
     }
 
-    // Subclasses will implement add, remove, clear, and display differently
 }

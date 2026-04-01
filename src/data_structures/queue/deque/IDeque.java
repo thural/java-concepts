@@ -1,21 +1,20 @@
-package data_structures.queue.dequeue;
+package data_structures.queue.deque;
 
 import data_structures.queue.IQueue;
 
 /**
  * Interface for a Double-Ended Queue (Deque).
- * Supports insertion and removal from both ends.
+ * Extends IQueue to allow Deques to be used anywhere a standard Queue is expected.
  */
 public interface IDeque extends IQueue {
+
     /**
      * Inserts an element at the front of the Deque.
-     * Wraps around to the end of the array if necessary.
      */
     void insertFront(int key);
 
     /**
      * Inserts an element at the rear of the Deque.
-     * Wraps around to the beginning of the array if necessary.
      */
     void insertRear(int key);
 
@@ -40,12 +39,25 @@ public interface IDeque extends IQueue {
     int getRear();
 
     /**
-     * Checks if the Deque has no elements.
+     * Maps the standard Queue enQueue to the Deque's insertRear.
      */
-    boolean isEmpty();
+    @Override
+    default void enQueue(int element) {
+        insertRear(element);
+    }
 
     /**
-     * Checks if the Deque has reached its capacity.
+     * Maps the standard Queue deQueue to the Deque's front operations.
+     * Note: Since IQueue.deQueue() returns an int, we fetch the front value first.
      */
-    boolean isFull();
+    @Override
+    default int deQueue() {
+        int value = getFront();
+        deleteFront();
+        return value;
+    }
+
+    /* Note: isEmpty(), isFull(), and display() are inherited from IQueue.
+       They do not need to be redeclared here unless you want to add specific documentation.
+    */
 }
