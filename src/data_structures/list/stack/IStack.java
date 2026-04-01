@@ -1,6 +1,8 @@
-package data_structures.stack;
+package data_structures.list.stack;
 
-public interface IStack {
+import data_structures.list.IList;
+
+public interface IStack extends IList {
     /**
      * Pushes an element onto the top of the stack.
      */
@@ -19,12 +21,12 @@ public interface IStack {
     /**
      * Checks if the stack is empty.
      */
-    Boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Checks if the stack has reached its maximum capacity.
      */
-    Boolean isFull();
+    boolean isFull();
 
     /**
      * Prints all elements in the stack.
